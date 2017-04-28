@@ -148,9 +148,24 @@ func (svg *SVG) Script(scriptype string, data ...string) {
 	}
 }
 
+func (svg *SVG) Style(data ...string) {
+	svg.printf("<style type=\"text/css\">\n")
+	if len(data) > 0 {
+		svg.printf("<![CDATA[\n")
+		for _, v := range data {
+			svg.println(v)
+		}
+		svg.printf("]]>\n")
+	}
+	svg.printf("</style>\n")
+}
+
 // Gstyle begins a group, with the specified style.
 // Standard Reference: http://www.w3.org/TR/SVG11/struct.html#GElement
 func (svg *SVG) Gstyle(s string) { svg.println(group("style", s)) }
+
+// Gstyle begins a group, with the specified class.
+func (svg *SVG) Gclass(s string) { svg.println(group("class", s)) }
 
 // Gtransform begins a group, with the specified transform
 // Standard Reference: http://www.w3.org/TR/SVG11/coords.html#TransformAttribute
